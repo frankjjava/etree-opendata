@@ -1,6 +1,6 @@
 package com.etree.opendata.common.dto;
 
-public class LookupCountryDto implements OpendataService {
+public class LookupCountryDto implements OpendataDtoBase {
 	String isoCode;
 	String countryName;
 	

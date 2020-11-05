@@ -1,6 +1,6 @@
 package com.etree.opendata.common.dto;
 
-public class RegionsDto implements OpendataService {
+public class RegionsDto implements OpendataDtoBase {
 	String code;
 	String regionName;
 	String description;

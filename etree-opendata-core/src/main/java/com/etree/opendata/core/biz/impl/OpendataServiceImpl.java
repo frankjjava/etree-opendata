@@ -1,9 +1,9 @@
 /**
- * Copyright © 2016 etree Technologies Pvt. Ltd.
+ * Copyright © 2020 eTree Technologies Pvt. Ltd.
  *
  * @author  Franklin Joshua
  * @version 1.0
- * @since   2016-01-15 
+ * @since   2020-11-04 
  */
 package com.etree.opendata.core.biz.impl;
 
@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 
 import com.etree.opendata.common.OpendataConstants;
 import com.etree.opendata.common.biz.AbstractOpendataService;
-import com.etree.opendata.common.dto.OpendataServiceDto;
+import com.etree.opendata.common.dto.OpendataDto;
 import com.etree.opendata.common.exception.OpendataException;
 
 public class OpendataServiceImpl extends AbstractOpendataService {
@@ -31,7 +31,7 @@ public class OpendataServiceImpl extends AbstractOpendataService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(OpendataServiceImpl.class);
 
 	@Override
-	public JSONArray loadEntityInfo(OpendataServiceDto opendataServiceDto) {
+	public String loadEntityInfo(OpendataDto opendataServiceDto) {
 		if (opendataServiceDto.getEntitiesKeyName() == null || !configParams.containsKey(opendataServiceDto.getEntitiesKeyName())) {
 			throw new OpendataException("", "Error! Requested entity not available: " + opendataServiceDto.getEntitiesKeyName());
 		}
@@ -84,8 +84,9 @@ public class OpendataServiceImpl extends AbstractOpendataService {
 				}
 			}		
 		}
-		JSONArray jsonArray = opendataDao.retrieveAsJson(opendataServiceDto, entityConfig);
-		return jsonArray;
+//		JSONArray jsonArray = opendataDao.retrieveAsJSONArray(opendataServiceDto, entityConfig);
+		String jsonString = opendataDao.retrieveAsJsonString(opendataServiceDto, entityConfig);
+		return jsonString;
 	}
 
 	@Override

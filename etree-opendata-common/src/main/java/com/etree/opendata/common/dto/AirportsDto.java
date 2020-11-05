@@ -1,6 +1,6 @@
 package com.etree.opendata.common.dto;
 
-public class AirportsDto implements OpendataService {
+public class AirportsDto implements OpendataDtoBase {
 	private String code;
 	private String name;
 	private String city;

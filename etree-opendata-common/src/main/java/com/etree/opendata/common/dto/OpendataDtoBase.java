@@ -1,7 +1,7 @@
 package com.etree.opendata.common.dto;
 
 
-public interface OpendataService {
+public interface OpendataDtoBase {
 		
 
 }

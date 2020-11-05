@@ -1,9 +1,9 @@
 /**
- * Copyright © 2016 eTree Technologies Pvt. Ltd.
+ * Copyright © 2020 eTree Technologies Pvt. Ltd.
  *
  * @author  Franklin Joshua
  * @version 1.0
- * @since   2016-01-15 
+ * @since   2020-11-04 
  */
 package com.etree.opendata.client.impl;
 
@@ -18,11 +18,10 @@ import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 
-import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.etree.commons.core.dto.RequestWrapperDto;
+import com.etree.commons.core.dto.RequestDto;
 import com.etree.opendata.common.OpendataConstants;
 import com.etree.opendata.common.client.AbstractOpendataServiceClient;
 import com.etree.opendata.common.dto.AirportsDto;
@@ -31,8 +30,8 @@ import com.etree.opendata.common.dto.CountriesDto;
 import com.etree.opendata.common.dto.CurrenciesDto;
 import com.etree.opendata.common.dto.LookupCityDto;
 import com.etree.opendata.common.dto.LookupCountryDto;
-import com.etree.opendata.common.dto.OpendataService;
-import com.etree.opendata.common.dto.OpendataServiceDto;
+import com.etree.opendata.common.dto.OpendataDto;
+import com.etree.opendata.common.dto.OpendataDtoBase;
 import com.etree.opendata.common.dto.RegionsDto;
 import com.etree.opendata.common.dto.TimezoneDstDto;
 import com.etree.opendata.common.dto.TimezonesCountriesDto;
@@ -43,24 +42,19 @@ public class OpendataServiceClientImpl extends AbstractOpendataServiceClient {
 	private static final Logger LOGGER = LoggerFactory.getLogger(OpendataServiceClientImpl.class);
 
 	@Override
-	public Object process(RequestWrapperDto requestWrapper) {
+	public Object fetchData(RequestDto requestWrapper) {
 		Object request = requestWrapper.getRequest();
 		if (request == null) {
 			throw new OpendataException("", "Invalid params! Nothing to process.");
 		}
-		if (doRemoteCall) {
-			Object object = doRemoteCall(requestWrapper);
-			return object;
-		} else {
-			JSONArray jsonArray = openDataService.loadEntityInfo((OpendataServiceDto) request);
-			return jsonArray;
-		}
+		Object object = callRemote(requestWrapper);
+		return object;
 	}
 
 	@Override
 	public Object fetchData(Map<String, List<String>> criteria, String entitiesKeyName, String ... arrKeys) {
-		OpendataServiceDto opendataServiceDto = new OpendataServiceDto();
-		opendataServiceDto.setEntitiesKeyName(entitiesKeyName);
+		OpendataDto opendataDto = new OpendataDto();
+		opendataDto.setEntitiesKeyName(entitiesKeyName);
 		List<String> keys = null;
 		if (arrKeys != null) {
 			for (String key : arrKeys) {
@@ -69,15 +63,15 @@ public class OpendataServiceClientImpl extends AbstractOpendataServiceClient {
 				}
 				keys.add(key);
 			}
-			opendataServiceDto.setKeys(keys);
+			opendataDto.setKeys(keys);
 		}
-		opendataServiceDto.setCriteria(criteria);
-		RequestWrapperDto requestWrapperDto = new RequestWrapperDto();
-		requestWrapperDto.setRequest(opendataServiceDto);
+		opendataDto.setCriteria(criteria);
+		RequestDto requestWrapperDto = new RequestDto();
+		requestWrapperDto.setRequest(opendataDto);
 		requestWrapperDto.setContentType(MediaType.APPLICATION_JSON);
 		Object response = null;
 		try {
-			response = process(requestWrapperDto);
+			response = fetchData(requestWrapperDto);
 		} catch (Exception e) {
 			throw new OpendataException("", e.getMessage());
 		}
@@ -85,7 +79,7 @@ public class OpendataServiceClientImpl extends AbstractOpendataServiceClient {
 	}
 	
 	@Override
-	public Object doRemoteCall(RequestWrapperDto requestWrapper) {
+	public Object callRemote(RequestDto requestWrapper) {
 		Object request = requestWrapper.getRequest();
 		if (request == null) {
 			throw new OpendataException("", "Invalid params! Nothing to process");
@@ -94,7 +88,7 @@ public class OpendataServiceClientImpl extends AbstractOpendataServiceClient {
 		if (baseUrl == null) {
 			throw new OpendataException("", "Cannot make remote call! URL is not set.");
 		}
-		OpendataServiceDto opendataServiceDto = (OpendataServiceDto) request;
+		OpendataDto opendataServiceDto = (OpendataDto) request;
 		StringBuilder url = new StringBuilder(baseUrl);
 		if (opendataServiceDto.isLookup()) {
 			url.append("lookup");
@@ -131,14 +125,14 @@ public class OpendataServiceClientImpl extends AbstractOpendataServiceClient {
 		}
 		Builder builder = target.request();
 		String entities = builder.get(String.class);
-		List<OpendataService> openDataList = convert(opendataServiceDto, entities);
+		List<OpendataDtoBase> openDataList = convert(opendataServiceDto, entities);
 		if (openDataList != null) {
 			return openDataList;
 		}
 		return entities;
 	}
 
-	private List<OpendataService> convert(OpendataServiceDto opendataServiceDto, String entities) {
+	private List<OpendataDtoBase> convert(OpendataDto opendataServiceDto, String entities) {
 		if (entities == null || entities.trim().isEmpty()) {
 			return null;
 		}
@@ -163,9 +157,9 @@ public class OpendataServiceClientImpl extends AbstractOpendataServiceClient {
 		} else if (OpendataConstants.TIMEZONES_COUNTRIES.equalsIgnoreCase(entity)) {
 			cls = TimezonesCountriesDto.class;
 		}
-		List<OpendataService> openDataList = null;
+		List<OpendataDtoBase> openDataList = null;
 		if (cls != null) {
-			openDataList = (List<OpendataService>) convertJsonToPojo(entities, cls, true,false,true); 
+			openDataList = (List<OpendataDtoBase>) convertJsonToPojo(entities, cls, true,false,true); 
 		}
 		return openDataList;
 	}

@@ -2,7 +2,7 @@ package com.etree.opendata.common.dto;
 
 import java.util.Date;
 
-public class TimezoneDstDto implements OpendataService {
+public class TimezoneDstDto implements OpendataDtoBase {
 	String dst_id;
 	String dst_name;
 	String description;

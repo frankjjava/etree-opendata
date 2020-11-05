@@ -1,6 +1,6 @@
 package com.etree.opendata.common.dto;
 
-public class CurrenciesDto implements OpendataService {
+public class CurrenciesDto implements OpendataDtoBase {
 	String isoCode;
 	String currencyName;
 	int rounding;

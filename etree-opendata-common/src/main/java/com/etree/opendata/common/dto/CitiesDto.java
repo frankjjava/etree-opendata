@@ -1,6 +1,6 @@
 package com.etree.opendata.common.dto;
 
-public class CitiesDto implements OpendataService {
+public class CitiesDto implements OpendataDtoBase {
 	String isoCode;
 	String cityName;
 	String description;

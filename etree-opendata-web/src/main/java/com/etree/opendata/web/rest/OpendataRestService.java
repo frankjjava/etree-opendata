@@ -1,9 +1,9 @@
 /**
- * Copyright © 2016 etree Technologies Pvt. Ltd.
+ * Copyright © 2020 eTree Technologies Pvt. Ltd.
  *
  * @author  Franklin Joshua
  * @version 1.0
- * @since   2016-01-15 
+ * @since   2020-11-04 
  */
 
 package com.etree.opendata.web.rest;
@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.etree.commons.core.web.rest.AbstractRestService;
 import com.etree.opendata.common.biz.OpendataService;
-import com.etree.opendata.common.dto.OpendataServiceDto;
+import com.etree.opendata.common.dto.OpendataDto;
 import com.etree.opendata.common.exception.OpendataException;
 
 @RestController
@@ -118,32 +118,33 @@ public class OpendataRestService extends AbstractRestService {
 	}
 
 	private Response loadAndCreateResponseEntity(String entitiesKeyName, String fields, MultivaluedMap<String, String> requestParam, String accept) {
-		OpendataServiceDto opendataServiceDto = new OpendataServiceDto();
+		OpendataDto opendataDto = new OpendataDto();
 		if (entitiesKeyName != null) {
-			opendataServiceDto.setEntitiesKeyName(entitiesKeyName.toLowerCase());
+			opendataDto.setEntitiesKeyName(entitiesKeyName.toLowerCase());
 		}
 		if (fields != null) {
-			opendataServiceDto.setKeys(Arrays.asList(fields.toLowerCase().split(",")));
+			opendataDto.setKeys(Arrays.asList(fields.toLowerCase().split(",")));
 		}
 		if (requestParam != null) {
-			opendataServiceDto.setCriteria(requestParam);
+			opendataDto.setCriteria(requestParam);
 		}
-		String reply = null;
+		String jsonString = null;
 		try {
-			JSONArray jsonArray = opendataService.loadEntityInfo(opendataServiceDto);
-			if (jsonArray != null) {
-				reply = jsonArray.toString();
-			}
+//			JSONArray jsonArray = opendataService.loadEntityInfo(opendataServiceDto);
+			jsonString = opendataService.loadEntityInfo(opendataDto);
+//			if (jsonArray != null) {
+//				reply = jsonArray.toString();
+//			}
 		} catch (Exception e) {
 			LOGGER.error("Error! ", e);
 			throw new OpendataException(e);
 		}
-		Response respEntity = createResponseEntity(reply, accept, opendataServiceDto);
+		Response respEntity = createResponseEntity(jsonString, accept, opendataDto);
 		return respEntity;
 	}
 
-	private Response createResponseEntity(String reply, String accept, OpendataServiceDto opendataServiceDto) {
-		if (reply == null) {
+	private Response createResponseEntity(String jsonString, String accept, OpendataDto opendataDto) {
+		if (jsonString == null) {
 			return Response.status(200).build();
 		}
 		boolean isXmlFormat = false;
@@ -153,18 +154,18 @@ public class OpendataRestService extends AbstractRestService {
 		Response respEntity = null;
 		HttpHeaders headers = new HttpHeaders();
 		if (isXmlFormat) {
-			JSONObject jsonObject = new JSONObject(reply);
+			JSONObject jsonObject = new JSONObject(jsonString);
 //			jsonObject.put(opendataServiceDto.getEntitiesKeyName(), reply);
-			if (opendataServiceDto != null && opendataServiceDto.getEntitiesKeyName() != null) {
-				reply = XML.toString(jsonObject, opendataServiceDto.getEntitiesKeyName());
+			if (opendataDto != null && opendataDto.getEntitiesKeyName() != null) {
+				jsonString = XML.toString(jsonObject, opendataDto.getEntitiesKeyName());
 			} else {
-				reply = XML.toString(jsonObject, "result");
+				jsonString = XML.toString(jsonObject, "result");
 			}
 			headers.setContentType(org.springframework.http.MediaType.APPLICATION_XML);
-			respEntity = Response.ok().entity(reply).build();
+			respEntity = Response.ok().entity(jsonString).build();
 		} else {
 			headers.setContentType(org.springframework.http.MediaType.APPLICATION_JSON);
-			respEntity = Response.ok().entity(reply).build();
+			respEntity = Response.ok().entity(jsonString).build();
 		}
 		return respEntity;
 	}

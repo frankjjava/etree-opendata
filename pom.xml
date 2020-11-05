@@ -21,10 +21,17 @@
 		<etree-commons.version>1.0</etree-commons.version>
 		<etree-opendata.version>1.0</etree-opendata.version>
 		<json-org.version>20200518</json-org.version>
+		<junit.version>4.13.1</junit.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+			    <groupId>junit</groupId>
+			    <artifactId>junit</artifactId>
+			    <version>${junit.version}</version>
+			    <scope>test</scope>
+			</dependency>
 			<dependency>
 				<groupId>org.json</groupId>
 				<artifactId>json</artifactId>

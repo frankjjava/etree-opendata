@@ -1,22 +1,23 @@
 /**
-* Copyright © 2016 eTree Technologies Pvt. Ltd.
+* Copyright © 2020 eTree Technologies Pvt. Ltd.
 *
 * @author  Franklin Joshua
 * @version 1.0
-* @since   2016-01-15 
+* @since   2020-11-04 
 */
 package com.etree.opendata.common.biz;
 
 import org.json.JSONArray;
 
-import com.etree.opendata.common.dto.OpendataServiceDto;
+import com.etree.opendata.common.dto.OpendataDto;
 
 public interface OpendataService {
 	
 	/* @param contains the entity/field/criteria for which the info to be fetched
 	 * @return data that is available for the entity 
 	 */
-	JSONArray loadEntityInfo(OpendataServiceDto opendataServiceDto);  
+//	JSONArray loadEntityInfo(OpendataDto opendataServiceDto);  
+	String loadEntityInfo(OpendataDto opendataDto);  
 	
 	//@return load all the entities available
 	JSONArray loadAvailableEntities(); 

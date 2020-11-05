@@ -1,6 +1,6 @@
 package com.etree.opendata.common.dto;
 
-public class TimezonesCountriesDto implements OpendataService {
+public class TimezonesCountriesDto implements OpendataDtoBase {
 
 	int timezoneCode;
 	String timezoneId;

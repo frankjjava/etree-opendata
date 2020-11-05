@@ -8,7 +8,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.etree.commons.core.utils.ExceptionUtils;
 import com.etree.opendata.common.OpendataConstants;
 import com.etree.opendata.common.client.OpendataServiceClient;
 import com.etree.opendata.common.dto.AirportsDto;

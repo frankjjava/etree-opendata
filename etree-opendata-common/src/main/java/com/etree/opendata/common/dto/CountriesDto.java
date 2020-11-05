@@ -1,6 +1,6 @@
 package com.etree.opendata.common.dto;
 
-public class CountriesDto implements OpendataService {
+public class CountriesDto implements OpendataDtoBase {
 	private String isoCodeAlpha2;
 	private String isoCodeAlpha3;
 	private String isoCodeNumeric;

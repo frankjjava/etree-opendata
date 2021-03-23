@@ -1,9 +1,8 @@
 FROM openjdk:8
 ADD target/referencedata.jar referencedata.jar
 VOLUME /tmp
-EXPOSE 2243
-ENV JAVA_OPTS=""
-CMD java $JAVA_OPTS -jar referencedata.jar
+EXPOSE 2427
+CMD java -jar referencedata.jar
 
 # to build: sudo docker build  -t frankjjava/referencedata:1.0 .
 # to run: 

@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>etree-refdata</groupId>
+		<artifactId>etree-refdata</artifactId>
+		<version>1.0</version>
+	</parent>
+	
+	<artifactId>etree-refdata-web</artifactId>
+	
+	<build>
+		<finalName>opendata</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+	
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jersey</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>etree-refdata</groupId>
+			<artifactId>etree-refdata-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>etree-refdata</groupId>
+			<artifactId>etree-refdata-common</artifactId>
+		</dependency>
+	</dependencies>
+</project>

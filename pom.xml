@@ -11,15 +11,15 @@
 		<relativePath />
 	</parent>
 
-	<groupId>com.etree</groupId>
-	<artifactId>etree-opendata</artifactId>
+	<groupId>etree-refdata</groupId>
+	<artifactId>etree-refdata</artifactId>
 	<version>1.0</version>
 	<packaging>pom</packaging>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<etree-commons.version>1.0</etree-commons.version>
-		<etree-opendata.version>1.0</etree-opendata.version>
+		<etree-refdata.version>1.0</etree-refdata.version>
 		<json-org.version>20200518</json-org.version>
 		<junit.version>4.13.1</junit.version>
 	</properties>
@@ -63,33 +63,32 @@
 				</exclusions>
 			</dependency>
 			<dependency>
-				<groupId>com.etree</groupId>
-				<artifactId>etree-commons-genericdao</artifactId>
+				<groupId>etree-commons</groupId>
+				<artifactId>etree-commons-core</artifactId>
 				<version>${etree-commons.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.etree</groupId>
-				<artifactId>etree-opendata-common</artifactId>
-				<version>${etree-opendata.version}</version>
+				<groupId>etree-commons</groupId>
+				<artifactId>etree-commons-dao</artifactId>
+				<version>${etree-commons.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.etree</groupId>
-				<artifactId>etree-opendata-core</artifactId>
-				<version>${etree-opendata.version}</version>
+				<groupId>etree-refdata</groupId>
+				<artifactId>etree-refdata-common</artifactId>
+				<version>${etree-refdata.version}</version>
 			</dependency>
 			<dependency>
-				<groupId>com.etree</groupId>
-				<artifactId>etree-opendata-client</artifactId>
-				<version>${etree-opendata.version}</version>
+				<groupId>etree-refdata</groupId>
+				<artifactId>etree-refdata-core</artifactId>
+				<version>${etree-refdata.version}</version>
 			</dependency>
 
 		</dependencies>
 	</dependencyManagement>
 
 	<modules>
-		<module>etree-opendata-common</module>
-		<module>etree-opendata-client</module>
-		<module>etree-opendata-core</module>
-		<module>etree-opendata-web</module>
+		<module>etree-refdata-common</module>
+		<module>etree-refdata-core</module>
+		<module>etree-refdata-web</module>
 	</modules>
 </project>
